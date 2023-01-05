@@ -7,20 +7,21 @@ export const MainView = () => {
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        fetch("https://openlibrary.org/search.json?q=star+wars")
+        fetch("https://myflix-movies.onrender.com/movies")
           .then((response) => response.json())
           .then((data) => {
-            const booksFromApi = data.docs.map((doc) => {
+            const moviesFromApi = data.map((doc) => {
               return {
-                id: doc.key,
-                title: doc.title,
-                image:
-    `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
-                author: doc.author_name?.[0]
+                id: doc._id,
+                title: doc.Title,
+                image: doc.ImagePath,
+                director: doc.Director.Name,
+                description: doc.Description,
+                releaseYear: doc.ReleaseYear
               };
             });
     
-            setMovies(booksFromApi);
+            setMovies(moviesFromApi);
           });
       }, []);
 
