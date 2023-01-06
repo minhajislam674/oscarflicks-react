@@ -1,15 +1,20 @@
 import PropTypes from "prop-types";
-
+import { Card } from "react-bootstrap";
+import './movie-card.scss'
 export const MovieCard = ({movieData, onMovieClick}) => {
+    
     return (
-        <>
-            <div onClick={()=> {
-                onMovieClick(movieData)
-            }}>
-                {movieData.title} ({movieData.releaseYear})
-            </div>
-        </>
-
+        <Card className="card-container " onClick={()=> {onMovieClick(movieData)}}>
+            <Card.Img
+                alt={`Poster of ${movieData.title}`}
+                src={movieData.image}
+                crossOrigin="cross-origin"
+            />
+            <Card.Body>
+                <Card.Title> {movieData.title} ({movieData.releaseYear}) </Card.Title>
+                <Card.Text> </Card.Text>
+            </Card.Body>
+        </Card>
     )
 }
 
