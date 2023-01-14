@@ -9,6 +9,7 @@ export const MovieCard = ({movieData, onMovieClick}) => {
                 alt={`Poster of ${movieData.title}`}
                 src={movieData.image}
                 crossOrigin="cross-origin"
+                className="card-image"
             />
             <Card.Body>
                 <Card.Title> {movieData.title} ({movieData.releaseYear}) </Card.Title>

@@ -7,12 +7,12 @@ export const MovieView = ({movieData, onBackClick}) => {
             <Container>
                     <Card className="card-container--mainview">
                     <Row>
-                        <Col>
-                            <CardImg src={movieData.image} alt="movie-poster"/>
+                        <Col xs={12} lg={6} md={9}>
+                            <CardImg className="card-image-movie-view" src={movieData.image} alt="movie-poster"/>
                         </Col>
-                        <Col> 
-                            <Card.Body>
-                                <Card.Title>{movieData.title}</Card.Title>
+                        <Col > 
+                            <Card.Body className="card-body">
+                                <Card.Title className="card-title-movie-view">{movieData.title}</Card.Title>
                                 <Card.Text>Director: {movieData.director} </Card.Text>
                                 <Button variant="primary" onClick={onBackClick}>Back </Button>
                             </Card.Body>

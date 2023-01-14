@@ -46,16 +46,12 @@ export const MainView = () => {
     if (!user) {
         return (
             <>
-                <Row className="justify-content-md-center mb-5">
-                <Col className="center" md={5}> 
                     <LoginView
                         onLoggedIn = {(user, token) => {
                             setUser(user);
                             setToken(token);
                     }}/>
                     <SignupView />
-                </Col>
-                </Row>
             </>
         );
     }   
@@ -87,7 +83,7 @@ export const MainView = () => {
             <Container>
                 <Row className="justify-content-md-center" mb={10}>
                     {movies.map((movie)=> (
-                        <Col className="mb-5" key={movie.id} sm={12} md={6} lg={4}>
+                        <Col className="mb-3 mt-3" key={movie.id} sm={12} md={6} lg={3}>
                             <MovieCard
                                 movieData={movie}
                                 onMovieClick = {(newSelectedMovie)=>{

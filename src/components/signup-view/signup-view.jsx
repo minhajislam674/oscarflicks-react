@@ -41,12 +41,13 @@ export const SignupView = () => {
     return (
       <>
         <div className="sign-up-container"> 
-          <h2> Don't have an account?</h2>
-          <span>Sign up with your email and password</span>
-          <Form onSubmit={handleSubmit}>
-            <FormGroup>
-              <FormLabel>Username: </FormLabel>
+
+          <Form className="signup-form-container" onSubmit={handleSubmit}>
+            <h2> Sign up now</h2>
+            <FormGroup className="form-group">
+              <FormLabel className="form-label">Username: </FormLabel>
               <FormControl
+                className="form-control"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -54,27 +55,30 @@ export const SignupView = () => {
                 minLength="3"
                 />
             </FormGroup>
-            <FormGroup>
-              <FormLabel>Password: </FormLabel>
+            <FormGroup className="form-group">
+              <FormLabel className="form-label">Password: </FormLabel>
               <FormControl
+                className="form-control"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 />
             </FormGroup>
-            <FormGroup>
-              <FormLabel>Email: </FormLabel>
+            <FormGroup className="form-group">
+              <FormLabel className="form-label">Email: </FormLabel>
               <FormControl
+                className="form-control"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 />
             </FormGroup>
-            <FormGroup>
-              <FormLabel>Date of Birth: </FormLabel>
+            <FormGroup className="form-group">
+              <FormLabel className="form-label">Date of Birth: </FormLabel>
               <FormControl
+                className="form-control"
                 type="date"
                 value={birthday}
                 onChange={(e) => setBirthday(e.target.value)}
