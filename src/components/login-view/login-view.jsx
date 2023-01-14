@@ -1,5 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import './login-view.scss';
+import { Link } from "react-router-dom";
 export const LoginView = ({onLoggedIn}) => {
 
     const [username, setUsername] = useState("");
@@ -38,26 +42,35 @@ export const LoginView = ({onLoggedIn}) => {
     };
 
     return (
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
+      <div className="login-form-container">
+      <h2> Log in</h2>            
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="form-group" controlId="formUsername">
+          <Form.Label className="form-label">Username</Form.Label>
+          <Form.Control
             type="text"
             value={username}
+            placeholder="Enter username"
             onChange={(e)=> setUsername(e.target.value)}
             required
              />
-        </label>
-        <label>
-          Password:
-          <input
+
+        </Form.Group>
+
+        <Form.Group className="form-group" controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
             value={password}
+            placeholder="Enter password"
             onChange={(e)=> setPassword(e.target.value)}
             required
             />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
+        </Form.Group>
+        <Button className="login-btn" type="submit">Sign in</Button>
+        <p> Already a member? <Link to={`/register`}> Sign in</Link></p>
+      </Form>
+      </div>
+
     );
   };
