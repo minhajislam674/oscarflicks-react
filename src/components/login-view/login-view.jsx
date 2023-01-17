@@ -4,14 +4,43 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import './login-view.scss';
 import { Link } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 export const LoginView = ({onLoggedIn}) => {
+  
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const logInToastSuccess = () => toast.success("Log in successful!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        theme: "light"
+    });
+    const logInToastError = () => toast.error("Couldn't log in", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        theme: "light"
+    });
+    const logInToastWarning = () => toast.warn("Incorrect username or password", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        theme: "light"
+    });
 
     const handleSubmit = (event) => {
         // this prevents the default behavior of the form which is to reload the entire page
         event.preventDefault();
+        setIsLoading(true);
     
         const data = {
             Username : username,
@@ -29,15 +58,20 @@ export const LoginView = ({onLoggedIn}) => {
         .then((data) => {
             console.log("Login response: ", data);
             if (data.user) {
+                logInToastSuccess();
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
                 onLoggedIn(data.user, data.token);
+                
             } else {
-                alert("no such user");
+                logInToastWarning();
+                setIsLoading(false);
             }
         })
         .catch((e)=>{
-            alert("something went wrong!")
+            logInToastError();
+            setIsLoading(false);
+            
         })
     };
 
@@ -67,9 +101,26 @@ export const LoginView = ({onLoggedIn}) => {
             required
             />
         </Form.Group>
-        <Button className="login-btn" type="submit">Sign in</Button>
+        <Button 
+          className="login-btn" 
+          type="submit" 
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          ) : (
+            "Sign in"
+          )}
+        </Button>
         <p> Already a member? <Link to={`/register`}> Sign in</Link></p>
       </Form>
+      <ToastContainer />
       </div>
 
     );

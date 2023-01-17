@@ -1,23 +1,30 @@
 import React from "react";
+
 import { useState, useEffect  } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
-import { useParams } from "react-router-dom";
+import { ProfileView } from "../profile-view/profile-view";
+import { DirectorView } from "../director-view/director-view";
+import { Form } from "react-bootstrap";
 import { NavBar } from "../navigation-bar/navigation-bar";
 import { Col, Row, Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate  } from 'react-router-dom';
 
+
+
 import './main-view.scss'
+
 
 export const MainView = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState(null);
     const [user, setUser] = useState(storedUser? storedUser: null);
     const [token, setToken] = useState(storedToken? storedToken: null);
+    const [filteredMovies, setFilteredMovies] = useState(movies);
+
 
     useEffect(() => {
         if(!token) {
@@ -29,29 +36,24 @@ export const MainView = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            const moviesFromApi = data.map((doc) => {
-              return {
-                id: doc._id,
-                title: doc.Title,
-                image: doc.ImagePath,
-                director: doc.Director.Name,
-                description: doc.Description,
-                releaseYear: doc.ReleaseYear,
-                genre: doc.Genre.Name,
-              };
-            });
     
-            setMovies(moviesFromApi);
+            setMovies(data);
+            setFilteredMovies(data);
           });
       }, [token]);
 
 
 
     return (
-        <>
+    
+    <>
 
     <BrowserRouter>
-    <NavBar/>
+    <NavBar
+        user={user}
+    />
+
+
     <Routes>
         <Route
             path="/login"
@@ -81,7 +83,6 @@ export const MainView = () => {
                 </>
             }
         />
-
         <Route
             path="/movies/:movieId"
             element = {
@@ -91,7 +92,39 @@ export const MainView = () => {
                     ) : (
                         <MovieView
                             movieData={movies}
+                        />
+                    )}
+                </>
+            } 
+        />
 
+        <Route
+            path="/directors/:directorName"
+            element = {
+                <>
+                    { !user ? (
+                        <Navigate to="/" />
+                    ) : movies.length ===0 ? (
+                        <div>Loading director information...</div>
+                    ) : (
+                        <DirectorView
+                            movieData={movies}
+
+                        />
+                    )}
+                </>
+            } 
+        />
+
+        <Route
+            path="/users/:username"
+            element = {
+                <>
+                    { !user ? (
+                        <Navigate to="/" />
+                    ) : (
+                        <ProfileView
+                            movieData = {movies}
                     />
                     )}
                 </>
@@ -109,21 +142,32 @@ export const MainView = () => {
                         <div>Loading movies...</div>
                     ) : (
                         
-                        <Container>
-                            <Row className="justify-content-md-center" mb={10}>
-                            {movies.map((movie) => (
+                        <Container className="home-container" >
+                            <Form.Control
+                                className="search-filter"
+                                size="sm"
+                                type="text"
+                                placeholder="Search movies..."
+                                onChange={(e) => {
+                                    const filteredArray =  movies.filter((movie)=>{
+                                        return movie.Title.toLowerCase().includes(e.target.value.toLowerCase());
+                                    })
+                                    setFilteredMovies(filteredArray);
+                                    console.log(filteredArray);
+                                }}
+                            />
+
+                            <Row className="justify-content-md-left" mb={10}>
+                            {filteredMovies.map((movie) => (
                                 <Col
                                     className="mb-3 mt-3"
-                                    key={movie.id}
+                                    key={movie._id}
                                     sm={12}
                                     md={6}
                                     lg={3}
                                 >
                                     <MovieCard
                                         movieData={movie}
-                                        onMovieClick={(newSelectedMovie) => {
-                                            setSelectedMovie(newSelectedMovie);
-                                        }}
                                     />
                                 </Col>
                         ))}
