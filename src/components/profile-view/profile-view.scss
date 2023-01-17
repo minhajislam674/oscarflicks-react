@@ -24,11 +24,14 @@
 }
 
 .card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.link-text {
-  text-decoration: none;
-  color: black;
+.remove-btn, .update-btn, .delete-btn{
+  max-width: 150px;
+}
+
+.card-profile {
+  margin-top: 20px;
 }

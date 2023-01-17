@@ -1,8 +1,11 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import './navigation-bar.scss';
+require( './../../assets/site-icon.png')
+
 
  
-export function NavBar ({user}) {
+export const NavBar = ({user}) => {
 
     const isLoggedIn = () => {
         if (localStorage.getItem('token')) {
@@ -21,7 +24,16 @@ export function NavBar ({user}) {
         return (
             <Navbar expand="lg" className="navbar" collapseOnSelect bg="light" variant="light">
               <Container>
-                <Navbar.Brand href="/">myFlix</Navbar.Brand>
+              <Navbar.Brand href="/">
+                <img
+                  alt="myflix icon"
+                  src={require( './../../assets/site-icon.png')}
+                  width="30"
+                  height="30"
+                  className="d-inline-block align-top"
+                />{' '}
+                myFlix
+            </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
@@ -32,7 +44,7 @@ export function NavBar ({user}) {
                     {isLoggedIn() && (
                     <Nav.Link as={Link} to="/">Movies</Nav.Link>)}
                     {isLoggedIn() && (
-                    <Nav.Link as={Link} to={`/users/${user}`}>Profile</Nav.Link>)}
+                    <Nav.Link as={Link} to={`/users/${user.Username}}`}>Profile</Nav.Link>)} 
                     {isLoggedIn() && (
                     <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>)}
                 </Nav>

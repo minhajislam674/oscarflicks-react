@@ -2,7 +2,9 @@ import React from "react";
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-
+import { Spinner } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './signup-view.scss';
 import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
 
@@ -11,9 +13,27 @@ export const SignupView = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [birthday, setBirthday] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
+
+    const signupSuccess = () => toast.success("Sign up successful! Please log in to continue!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      theme: "light"
+  });
+
+  const signupError = () => toast.error("Signup failed!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      theme: "light"
+  });
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setIsLoading(true);
     
         const data = {
           Username: username,
@@ -30,10 +50,14 @@ export const SignupView = () => {
           }
         }).then((response) => {
           if (response.ok) {
-            alert("Signup successful");
-            window.location.reload();
+            signupSuccess();
+            setTimeout(() => {
+              window.open('/login', '_self');
+            }, 2000);
+            
           } else {
-            alert("Signup failed");
+            setIsLoading(false);
+            signupError();
           }
         });
       };
@@ -85,7 +109,23 @@ export const SignupView = () => {
                 required
                 />
             </FormGroup>
-            <Button className="signup-btn" type="submit">Submit</Button>
+            <Button
+              className="signup-btn"
+              type="submit"
+              disabled={isLoading}
+              >
+              {isLoading ? (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                /> 
+              ) : (
+                "Sign up"
+              )}
+            </Button>
             </Form>
         </div>
 
