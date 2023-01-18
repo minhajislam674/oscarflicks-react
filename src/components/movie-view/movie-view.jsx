@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, CardImg, Row, Col, Container } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/favorite-icon.png';
 import '../../assets/favorite-icon-clicked.png';
@@ -17,7 +17,7 @@ export const MovieView = ({movieData}) => {
     const favorited = require('../../assets/favorite-icon-clicked.png');
     const notFavorited = require('../../assets/favorite-icon.png');
     const [favorite, setFavorite] = useState(false);
-    const [favoriteIcon, setFavoriteIcon] = useState(notFavorited);
+  
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
 
@@ -38,9 +38,6 @@ export const MovieView = ({movieData}) => {
   });
 
     
-    useEffect(() => {
-        setFavoriteIcon(favorite ? favorited : notFavorited);
-    }, [favorite]);
 
 
 
