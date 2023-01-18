@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Container, Card, Row, Col, Form, Button } from "react-bootstrap"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./profile-view.scss";
 export const ProfileView = ({movieData}) => {
 
 
-    const storedToken = localStorage.getItem("token");
-    const [token, setToken] = useState(storedToken ? storedToken : null);
+    const token = localStorage.getItem("token");
+
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
-    const [currentUser, setCurrentUser] = useState(storedUser ? storedUser : null);
+    const currentUser = storedUser;
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
