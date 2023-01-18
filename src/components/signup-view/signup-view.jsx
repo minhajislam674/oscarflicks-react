@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
@@ -14,6 +15,13 @@ export const SignupView = () => {
     const [email, setEmail] = useState("");
     const [birthday, setBirthday] = useState("");
     const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate();
+
+    const handleNavigate = () => {
+        navigate("/");
+    }
+
+
 
     const signupSuccess = () => toast.success("Sign up successful! Please log in to continue!", {
       position: "top-right",
@@ -52,7 +60,7 @@ export const SignupView = () => {
           if (response.ok) {
             signupSuccess();
             setTimeout(() => {
-              window.open('/login', '_self');
+              handleNavigate();
             }, 2000);
             
           } else {
