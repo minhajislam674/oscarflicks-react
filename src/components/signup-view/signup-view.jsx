@@ -3,7 +3,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './signup-view.scss';
 import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
