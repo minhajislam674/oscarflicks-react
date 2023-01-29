@@ -9,9 +9,10 @@ Live Demo: https://oscar-flicks.netlify.app/
 Repository for server-side code: https://github.com/minhajislam674/movie-api
 
 <img
-  src="/assets/OscarFlicksScreenshot.jpeg"
+  src="src/assets/OscarFlicksScreenshot.jpeg"
   alt="OscarFlicks"
-  title="OscarFlicks">
+  title="OscarFlicks"
+  style="display: inline-block; width: 650px">
 
 ## Features
 
