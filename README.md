@@ -6,6 +6,13 @@
 
 Live Demo: https://oscar-flicks.netlify.app/
 
+Repository for server-side code: https://github.com/minhajislam674/movie-api
+
+<img
+  src="/assets/OscarFlicksScreenshot.jpeg"
+  alt="OscarFlicks"
+  title="OscarFlicks">
+
 ## Features
 
 With OscarFlicks, you can easily search and filter through a wide range of Academy Award winning films, view detailed information about each film, and even sign up to be able to add films to your watchlist.
