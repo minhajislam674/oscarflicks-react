@@ -76,6 +76,13 @@ export const LoginView = ({onLoggedIn}) => {
     };
 
     return (
+      <>
+      
+      <div>
+        <p>
+          {/* Experience cinematic excellence with OscarFlicks - your go-to destination for Academy Award winning films. */}
+        </p> 
+      </div>
       <div className="login-form-container">
       <h2> Log in</h2>            
       <Form onSubmit={handleSubmit}>
@@ -118,10 +125,12 @@ export const LoginView = ({onLoggedIn}) => {
             "Sign in"
           )}
         </Button>
-        <p> Already a member? <Link to={`/register`}> Sign in</Link></p>
+        <p style={{marginTop: "10px"}}> Don't have an account? <Link to={`/register`}> Register</Link></p>
       </Form>
       <ToastContainer />
       </div>
+
+    </>
 
     );
   };

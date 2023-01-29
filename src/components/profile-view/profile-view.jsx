@@ -3,17 +3,15 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Container, Card, Row, Col, Form, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
+import { Spinner } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
 import "./profile-view.scss";
+
 export const ProfileView = ({movieData}) => {
 
-
     const token = localStorage.getItem("token");
-
-
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(localStorage.getItem("user"))
     const currentUser = storedUser;
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -21,6 +19,8 @@ export const ProfileView = ({movieData}) => {
     const [passwordErr, setPasswordErr] = useState('');
     const [emailErr, setEmailErr] = useState('');
     const [favoriteMovies, setFavoriteMovies] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const removeFromFavoriteSuccess = () => toast.info("Removed from favorites!", {
         position: "top-right",
@@ -30,7 +30,7 @@ export const ProfileView = ({movieData}) => {
         theme: "light"
     });
 
-    const userUpdateSuccess = () => toast.success("Profile has been updaed! Please log in with new credentials!", {
+    const userUpdateSuccess = () => toast.success("Profile has been updaed!", {
         position: "top-right",
         autoClose: 4000,
         hideProgressBar: true,
@@ -46,6 +46,7 @@ export const ProfileView = ({movieData}) => {
         theme: "light"
     });
 
+
     //Validate user inputs
     const validate =()=> {
     //Declaring the variable isReq and setting it to true.
@@ -59,8 +60,8 @@ export const ProfileView = ({movieData}) => {
     if (!username) {
         setUsernameErr("Username required!");
         isReq = false;
-    } else if (username.length < 2) {
-        setUsernameErr("Username must be at least 2 characters long!");
+    } else if (username.length < 4) {
+        setUsernameErr("Username must be at least 4 characters long!");
         isReq = false;
     }
     if (!password) {
@@ -96,18 +97,19 @@ export const ProfileView = ({movieData}) => {
 
   useEffect(() => {
     getUserData();
-
+    handleUpdate();
   });
 
     //UPDATE USER INFO
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         // preventing the default behavior of submitting a form
         e.preventDefault(); 
         const isReq = validate();
 
         if (isReq) {
+            setIsLoading(true);
             // If succesfully validated, send a request to the server to update information using put request
-            axios.put(`https://myflix-movies.onrender.com/users/${currentUser.Username}`, {
+            await axios.put(`https://myflix-movies.onrender.com/users/${currentUser.Username}`, {
                 Username: username,
                 Password: password,
                 Email: email
@@ -116,13 +118,14 @@ export const ProfileView = ({movieData}) => {
             .then(response => { 
                 const data = response.data;
                 console.log(data);
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                window.open('/login', '_self');
+                localStorage.setItem("user", JSON.stringify(data));
+                setIsLoading(false);
                 userUpdateSuccess();
             })
+            // if the request is not successful, display an error message
             .catch(e => {
                 userUpdateError();
+                setIsLoading(false);
             });
         }
     };
@@ -195,20 +198,35 @@ export const ProfileView = ({movieData}) => {
                                 <Form.Group controlId="formBasicUsername">
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control type="text" placeholder="Enter new username" value={username} onChange={e => setUsername(e.target.value)} />
-                                    {usernameErr && <p>{usernameErr}</p>}
+                                    {usernameErr && <p style={{color: "red"}}>{usernameErr}</p>}
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control type="password" placeholder="Enter new password" value={password} onChange={e => setPassword(e.target.value)} />
-                                    {passwordErr && <p>{passwordErr}</p>}
+                                    {passwordErr && <p style={{color: "red"}}>{passwordErr}</p>}
                                 </Form.Group>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control type="email" placeholder="Enter new email" value={email} onChange={e => setEmail(e.target.value)} />
-                                    {emailErr && <p>{emailErr}</p>}
+                                    {emailErr && <p style={{color: "red"}}>{emailErr}</p>}
                                 </Form.Group>
-                                <Button className="update-btn" variant="primary" type="submit" onClick={handleUpdate}>
-                                    Update
+                                <Button
+                                    className="update-btn"
+                                    variant="primary"
+                                    disabled={isLoading} 
+                                    type="submit"
+                                    onClick={handleUpdate}>
+                                    {isLoading ? (
+                                        <Spinner
+                                        as="span"
+                                        animation="grow"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                        />
+                                    ) : (
+                                        "Update"
+                                    )}
                                 </Button>
                             </Form>
                             

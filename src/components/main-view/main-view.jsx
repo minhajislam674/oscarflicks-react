@@ -7,14 +7,12 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { DirectorView } from "../director-view/director-view";
-import { Form } from "react-bootstrap";
+import { GenreView } from "../genre-view/genre-view";
 import { NavBar } from "../navigation-bar/navigation-bar";
 import { Col, Row, Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate  } from 'react-router-dom';
-
-
-
 import './main-view.scss'
+
 
 
 export const MainView = () => {
@@ -24,6 +22,8 @@ export const MainView = () => {
     const [user, setUser] = useState(storedUser? storedUser: null);
     const [token, setToken] = useState(storedToken? storedToken: null);
     const [filteredMovies, setFilteredMovies] = useState(movies);
+    const [searchQuery, setSearchQuery] = useState('');
+
 
 
     useEffect(() => {
@@ -117,6 +117,24 @@ export const MainView = () => {
         />
 
         <Route
+            path="/genre/:genreName"
+            element = {
+                <>
+                    { !user ? (
+                        <Navigate to="/" />
+                    ) : movies.length ===0 ? (
+                        <div>Loading genre information...</div>
+                    ) : (
+                        <GenreView
+                            movieData={movies}
+
+                        />
+                    )}
+                </>
+            } 
+        />
+
+        <Route
             path="/users/:username"
             element = {
                 <>
@@ -143,20 +161,24 @@ export const MainView = () => {
                     ) : (
                         
                         <Container className="home-container" >
-                            <Form.Control
-                                className="search-filter"
-                                size="sm"
-                                type="text"
-                                placeholder="Search movies..."
-                                onChange={(e) => {
-                                    const filteredArray =  movies.filter((movie)=>{
-                                        return movie.Title.toLowerCase().includes(e.target.value.toLowerCase());
-                                    })
-                                    setFilteredMovies(filteredArray);
-                                    console.log(filteredArray);
-                                }}
-                            />
+                            <div>
+                                <input
+                                    className="search-bar"
+                                    type="search"
+                                    value={searchQuery}
+                                    placeholder="Search movies..."
+                                    onChange={(e) => {
+                                        const filteredArray =  movies.filter((movie)=>{
+                                            return movie.Title.toLowerCase().includes(e.target.value.toLowerCase());
+                                        })
+                                        setFilteredMovies(filteredArray);
+                                        setSearchQuery(e.target.value);
+                                        console.log(filteredArray);
+                                    }}
+                                >
+                                </input>
 
+                            </div>
                             <Row className="justify-content-md-left" mb={10}>
                             {filteredMovies.map((movie) => (
                                 <Col
