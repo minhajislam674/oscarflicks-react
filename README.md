@@ -8,7 +8,7 @@ Live Demo: https://oscar-flicks.netlify.app/
 
 ## Features
 
-Welcome to OscarFlicks, a minimal client-side single page application (SPA) that allows users to browse Academy Award winning films. The app is built on top of existing server-side code, including a REST API and database.
+With OscarFlicks, you can easily search and filter through a wide range of Academy Award winning films, view detailed information about each film, and even sign up to be able to add films to your watchlist.
 
 ![](header.png)
 

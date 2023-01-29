@@ -27,12 +27,12 @@ export const NavBar = ({user}) => {
               <Navbar.Brand href="/">
                 <img
                   alt="myflix icon"
-                  src={require( './../../assets/site-icon.png')}
+                  src={require( './../../assets/favicon-32x32.png')}
                   width="30"
                   height="30"
                   className="d-inline-block align-top"
                 />{' '}
-                myFlix
+                OscarFlicks
             </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">

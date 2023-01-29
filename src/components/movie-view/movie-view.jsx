@@ -107,14 +107,18 @@ export const MovieView = ({movieData}) => {
                                 </Card.Title>
                                 
                                 <br></br>
-                                <Card.Text><span>Genre: </span> {movie.Genre.Name} </Card.Text>
+                                <Card.Text><span>Genre: </span> 
+                                <Link className="link-text" to={`/genre/${encodeURIComponent(movie.Genre.Name)}`}>
+                                {movie.Genre.Name} 
+                                </Link>
+                                </Card.Text>
                                 <Card.Text><span>Director: </span>
                                 <Link className="link-text" to={`/directors/${encodeURIComponent(movie.Director.Name)}`}>
                                   {movie.Director.Name}
                                 </Link> 
                                 </Card.Text>
                                 <Card.Text><span>Summary: </span>{movie.Description} </Card.Text>
-                                <Button variant='outline-dark' className='back-btn mt-2' onClick={() => navigate(-1)}>Back</Button>
+                                <Button variant='outline-dark' className='back-btn mt-2' onClick={() => navigate("/")}>Back</Button>
                             </Card.Body>
                         </Col>
                         </Row>

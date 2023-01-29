@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
@@ -75,13 +76,14 @@ export const SignupView = () => {
         <div className="sign-up-container"> 
 
           <Form className="signup-form-container" onSubmit={handleSubmit}>
-            <h2> Sign up now</h2>
+            <h2> Sign up </h2>
             <FormGroup className="form-group">
               <FormLabel className="form-label">Username: </FormLabel>
               <FormControl
                 className="form-control"
                 type="text"
                 value={username}
+                placeholder="Enter username"
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 minLength="3"
@@ -92,6 +94,7 @@ export const SignupView = () => {
               <FormControl
                 className="form-control"
                 type="password"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -102,6 +105,7 @@ export const SignupView = () => {
               <FormControl
                 className="form-control"
                 type="email"
+                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -113,6 +117,7 @@ export const SignupView = () => {
                 className="form-control"
                 type="date"
                 value={birthday}
+                placeholder="Enter birthday"
                 onChange={(e) => setBirthday(e.target.value)}
                 required
                 />
@@ -134,6 +139,7 @@ export const SignupView = () => {
                 "Sign up"
               )}
             </Button>
+            <p style={{marginTop: "10px"}}> Already a member? <Link to={`/login`}> Log in</Link></p>
             </Form>
         </div>
 

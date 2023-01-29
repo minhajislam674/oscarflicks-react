@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router";
 import { Container, Card, Row, Col, Button} from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
-import './director-view.scss'
+import './genre-view.scss'
 
-export const DirectorView = ({ movieData }) => {
-    const {directorName} = useParams();
-    const director = movieData.find((d) => d.Director.Name === directorName).Director;
-    const filteredMovies = movieData.filter((m) => m.Director.Name === directorName);
+export const GenreView = ({ movieData }) => {
+    const {genreName} = useParams();
+    const genre = movieData.find((d) => d.Genre.Name === genreName).Genre;
+    const filteredMovies = movieData.filter((m) => m.Genre.Name === genreName);
     const navigate = useNavigate();
 
 
@@ -14,12 +14,12 @@ export const DirectorView = ({ movieData }) => {
         <Container>
             <Card className="card-container--mainview">
                 <Card.Body className="card-body">
-                    <Card.Title className="card-title-movie-view"> {director.Name} </Card.Title>
+                    <Card.Title className="card-title-movie-view"> {genre.Name} </Card.Title>
                     <br></br>
-                    <Card.Text> <span>Bio: </span> {director.Bio} </Card.Text>
+                    <Card.Text> <span>Description: </span> {genre.Description} </Card.Text>
                     <br></br>
                     <hr></hr>
-                    <Card.Text>  <span className="label">Movies directed by {director.Name}</span></Card.Text>
+                    <Card.Text>  <span className="label">Other {genre.Name} movies</span></Card.Text>
                     <Row className="justify-content-md-left" mb={10}>
                         {filteredMovies.map((m) => (
 
