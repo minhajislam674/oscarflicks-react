@@ -100,6 +100,7 @@ export const ProfileView = ({movieData}) => {
 
   useEffect(() => {
     getUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
     //UPDATE USER INFO
