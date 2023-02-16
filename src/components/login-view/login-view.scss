@@ -30,4 +30,29 @@
     max-width: 300px;
 }
 
+.guest-btn {
+    background-color: #424547;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-width: 200px;
+    max-width: 300px;
+    cursor: pointer;
+}
 
+.guest-btn:hover {
+  background-color: #282a2b;
+}
+
+.login-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-width: 200px;
+    max-width: 300px;
+    cursor: pointer;
+}

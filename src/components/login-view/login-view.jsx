@@ -170,7 +170,7 @@ export const LoginView = ({onLoggedIn}) => {
       <hr></hr>
       <p>Or</p>
       <Button 
-          className="login-btn guest-btn" 
+          className="guest-btn" 
           disabled={isLoadingGuest}
           onClick={handleGuestLogin}
 
