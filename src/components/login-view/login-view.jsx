@@ -15,6 +15,7 @@ export const LoginView = ({onLoggedIn}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingGuest, setIsLoadingGuest] = useState(false);
     const logInToastSuccess = () => toast.success("Log in successful!", {
         position: "top-right",
         autoClose: 2000,
@@ -75,6 +76,44 @@ export const LoginView = ({onLoggedIn}) => {
         })
     };
 
+    const handleGuestLogin = (event) => {
+      // this prevents the default behavior of the form which is to reload the entire page
+      event.preventDefault();
+      setIsLoadingGuest(true);
+  
+      const data = {
+          Username : "guest",
+          Password : "123456"
+      };
+  
+      fetch("https://myflix-movies.onrender.com/login/", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+        },
+      body: JSON.stringify(data)
+      })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log("Login response: ", data);
+          if (data.user) {
+              logInToastSuccess();
+              localStorage.setItem("user", JSON.stringify(data.user));
+              localStorage.setItem("token", data.token);
+              onLoggedIn(data.user, data.token);
+              
+          } else {
+              logInToastWarning();
+              setIsLoadingGuest(false);
+          }
+      })
+      .catch(()=>{
+          logInToastError();
+          setIsLoadingGuest(false);
+          
+      })
+  };
+
     return (
       <>
       
@@ -127,6 +166,27 @@ export const LoginView = ({onLoggedIn}) => {
         </Button>
         <p style={{marginTop: "10px"}}> Don't have an account? <Link to={`/register`}> Register</Link></p>
       </Form>
+      
+      <hr></hr>
+      <p>Or</p>
+      <Button 
+          className="login-btn guest-btn" 
+          disabled={isLoadingGuest}
+          onClick={handleGuestLogin}
+
+        >
+          {isLoadingGuest ? (
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          ) : (
+            "Continue as a guest"
+          )}
+        </Button>
       <ToastContainer />
       </div>
 

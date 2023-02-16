@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import './movie-card.scss'
@@ -25,9 +24,3 @@ export const MovieCard = ({movieData}) => {
     )
 }
 
-MovieCard.propTypes = {
-    movieData: PropTypes.shape({
-        title: PropTypes.string
-    }).isRequired,
-    onMovieClick: PropTypes.func.isRequired
-}
