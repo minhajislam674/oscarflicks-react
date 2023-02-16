@@ -20,6 +20,9 @@ export const ProfileView = ({movieData}) => {
     const [emailErr, setEmailErr] = useState('');
     const [favoriteMovies, setFavoriteMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const isGuest = currentUser.Username === "guest";
+    const disabled = isGuest ? true : false;
+    let usersFavMovies
 
 
     const removeFromFavoriteSuccess = () => toast.info("Removed from favorites!", {
@@ -97,13 +100,14 @@ export const ProfileView = ({movieData}) => {
 
   useEffect(() => {
     getUserData();
-    handleUpdate();
-  });
+  },[]);
 
     //UPDATE USER INFO
-    const handleUpdate = async (e) => {
+    const handleUpdate = async (event) => {
         // preventing the default behavior of submitting a form
-        e.preventDefault(); 
+        event.preventDefault();
+        
+        
         const isReq = validate();
 
         if (isReq) {
@@ -149,7 +153,7 @@ export const ProfileView = ({movieData}) => {
             }
         }
 
-    const usersFavMovies = movieData && movieData.filter((m) =>
+     usersFavMovies = movieData && movieData.filter((m) =>
         favoriteMovies.includes(m._id)
         );
 
@@ -162,6 +166,7 @@ export const ProfileView = ({movieData}) => {
                 "Content-Type": "application/json"
             }
             }).then((response) => {
+            setFavoriteMovies(favoriteMovies.filter((movie) => movie !== movieId));
             removeFromFavoriteSuccess();
             return response.json();
             }).then(data => console.log(data))
@@ -181,10 +186,22 @@ export const ProfileView = ({movieData}) => {
                             <Card.Title> Your Profile </Card.Title>
                             <Card.Text> Name: {currentUser.Username} </Card.Text>
                             <Card.Text> Email: {currentUser.Email} </Card.Text>
-                            <br></br>
-                            <Button className="delete-btn" variant="danger" onClick={handleDelete}>
-                                    Delete Account
+                            
+                            <Button 
+                                className="delete-btn"
+                                variant="danger"
+                                onClick={handleDelete}
+                                disabled={disabled}
+                            >
+                            Delete Account
                             </Button>
+                            {isGuest && 
+                                <Card.Text style={{color: "grey"}}>
+                                    You are currently logged in as a guest. <br></br>
+                                    Please create an account to access this feature.
+                                </Card.Text>
+                        }
+
                         </Card.Body>
                         <Card.Footer>
                         </Card.Footer>
@@ -197,25 +214,45 @@ export const ProfileView = ({movieData}) => {
                             <Form>
                                 <Form.Group controlId="formBasicUsername">
                                     <Form.Label>Username</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter new username" value={username} onChange={e => setUsername(e.target.value)} />
+                                    <Form.Control disabled={disabled} type="text" placeholder="Enter new username" value={username} onChange={e => setUsername(e.target.value)} />
                                     {usernameErr && <p style={{color: "red"}}>{usernameErr}</p>}
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" placeholder="Enter new password" value={password} onChange={e => setPassword(e.target.value)} />
+                                    <Form.Control disabled={disabled}  type="password" placeholder="Enter new password" value={password} onChange={e => setPassword(e.target.value)} />
                                     {passwordErr && <p style={{color: "red"}}>{passwordErr}</p>}
                                 </Form.Group>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter new email" value={email} onChange={e => setEmail(e.target.value)} />
+                                    <Form.Control disabled={disabled}  type="email" placeholder="Enter new email" value={email} onChange={e => setEmail(e.target.value)} />
                                     {emailErr && <p style={{color: "red"}}>{emailErr}</p>}
                                 </Form.Group>
+
+                                {isGuest ? (
+                                <>
+                                    <Button
+                                        className="update-btn"
+                                        variant="primary"
+                                        disabled={disabled} 
+                                        type="submit"
+                                        >
+                                        Update
+                                    </Button>
+                                    <Card.Text style={{color: "grey"}}>
+                                        You are currently logged in as a guest. <br></br>
+                                        Please create an account to access this feature.
+                                    </Card.Text>
+                                </>
+
+                                ) : (
+                            
                                 <Button
                                     className="update-btn"
                                     variant="primary"
                                     disabled={isLoading} 
                                     type="submit"
-                                    onClick={handleUpdate}>
+                                    onClick={handleUpdate}
+                                    >
                                     {isLoading ? (
                                         <Spinner
                                         as="span"
@@ -228,6 +265,7 @@ export const ProfileView = ({movieData}) => {
                                         "Update"
                                     )}
                                 </Button>
+                                )}
                             </Form>
                             
                         </Card.Body>
